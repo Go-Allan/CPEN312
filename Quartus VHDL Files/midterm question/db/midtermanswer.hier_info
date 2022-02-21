@@ -1,0 +1,27 @@
+|midtermanswer
+Clock => Q[0]~reg0.CLK
+Clock => Q[1]~reg0.CLK
+Clock => Q[2]~reg0.CLK
+Clock => Q[3]~reg0.CLK
+M => Q.OUTPUTSELECT
+M => Q.OUTPUTSELECT
+M => Q.OUTPUTSELECT
+M => Q.OUTPUTSELECT
+Rn => Q[0]~reg0.ACLR
+Rn => Q[1]~reg0.ACLR
+Rn => Q[2]~reg0.ACLR
+Rn => Q[3]~reg0.ACLR
+D0[0] => Q.DATAB
+D0[1] => Q.DATAB
+D0[2] => Q.DATAB
+D0[3] => Q.DATAB
+D1[0] => Q.DATAA
+D1[1] => Q.DATAA
+D1[2] => Q.DATAA
+D1[3] => Q.DATAA
+Q[0] <= Q[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[1] <= Q[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[2] <= Q[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[3] <= Q[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+

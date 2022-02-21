@@ -1,0 +1,116 @@
+--------------------------------------------------------------------------------------
+Slow Model Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 13.121 ns
+From           : P2[0]
+To             : T51:core51|SFR_RData_r[0]
+From Clock     : --
+To Clock       : CLOCK_50
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 7.148 ns
+From           : T51_Port:LCD_Command_Port|Port_Output[4]
+To             : LCD_BLON
+From Clock     : CLOCK_50
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case tpd
+Slack          : N/A
+Required Time  : None
+Actual Time    : 2.752 ns
+From           : altera_internal_jtag~TDO
+To             : altera_reserved_tdo
+From Clock     : --
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : 1.152 ns
+From           : altera_internal_jtag
+To             : sld_hub:sld_hub_inst|tdo_bypass_reg
+From Clock     : --
+To Clock       : altera_internal_jtag~TCKUTAP
+Failed Paths   : 0
+
+Type           : Slow Model Clock Setup: 'DE2_Pll:pll_33_MHz|altpll:altpll_component|_clk0'
+Slack          : 2.928 ns
+Required Time  : 33.33 MHz ( period = 30.000 ns )
+Actual Time    : 41.42 MHz ( period = 24.144 ns )
+From           : SSRAM:ram1|altsyncram:RAM_rtl_2|altsyncram_df61:auto_generated|ram_block1a33~porta_address_reg11
+To             : DE2_Debug:BPctrl|Break_State2
+From Clock     : DE2_Pll:pll_33_MHz|altpll:altpll_component|_clk0
+To Clock       : DE2_Pll:pll_33_MHz|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Slow Model Clock Setup: 'altera_internal_jtag~TCKUTAP'
+Slack          : 79.537 ns
+Required Time  : 6.00 MHz ( period = 166.666 ns )
+Actual Time    : 131.72 MHz ( period = 7.592 ns )
+From           : sld_hub:sld_hub_inst|irf_reg[1][1]
+To             : sld_hub:sld_hub_inst|tdo
+From Clock     : altera_internal_jtag~TCKUTAP
+To Clock       : altera_internal_jtag~TCKUTAP
+Failed Paths   : 0
+
+Type           : Slow Model Clock Setup: 'TCK'
+Slack          : 159.905 ns
+Required Time  : 6.00 MHz ( period = 166.666 ns )
+Actual Time    : 147.91 MHz ( period = 6.761 ns )
+From           : USB_BLASTER:JTAG_ctrl|tCont[0]
+To             : USB_BLASTER:JTAG_ctrl|TDO
+From Clock     : TCK
+To Clock       : TCK
+Failed Paths   : 0
+
+Type           : Slow Model Clock Hold: 'DE2_Pll:pll_33_MHz|altpll:altpll_component|_clk0'
+Slack          : 0.391 ns
+Required Time  : 33.33 MHz ( period = 30.000 ns )
+Actual Time    : N/A
+From           : USB_BLASTER:JTAG_ctrl|DE2_Fifo:TXFIFO|scfifo:scfifo_component|scfifo_3r51:auto_generated|a_dpfifo_vc31:dpfifo|low_addressa[8]
+To             : USB_BLASTER:JTAG_ctrl|DE2_Fifo:TXFIFO|scfifo:scfifo_component|scfifo_3r51:auto_generated|a_dpfifo_vc31:dpfifo|low_addressa[8]
+From Clock     : DE2_Pll:pll_33_MHz|altpll:altpll_component|_clk0
+To Clock       : DE2_Pll:pll_33_MHz|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Slow Model Clock Hold: 'altera_internal_jtag~TCKUTAP'
+Slack          : 0.391 ns
+Required Time  : 6.00 MHz ( period = 166.666 ns )
+Actual Time    : N/A
+From           : ROM52:rom|altsyncram:altsyncram_component|altsyncram_16a1:auto_generated|sld_mod_ram_rom:mgl_prim2|bypass_reg_out
+To             : ROM52:rom|altsyncram:altsyncram_component|altsyncram_16a1:auto_generated|sld_mod_ram_rom:mgl_prim2|bypass_reg_out
+From Clock     : altera_internal_jtag~TCKUTAP
+To Clock       : altera_internal_jtag~TCKUTAP
+Failed Paths   : 0
+
+Type           : Slow Model Clock Hold: 'TCK'
+Slack          : 0.391 ns
+Required Time  : 6.00 MHz ( period = 166.666 ns )
+Actual Time    : N/A
+From           : USB_BLASTER:JTAG_ctrl|tCont[0]
+To             : USB_BLASTER:JTAG_ctrl|tCont[0]
+From Clock     : TCK
+To Clock       : TCK
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 0
+
+--------------------------------------------------------------------------------------
+

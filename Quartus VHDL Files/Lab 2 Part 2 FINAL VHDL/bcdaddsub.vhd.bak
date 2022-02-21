@@ -1,0 +1,86 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity bcdaddsub is
+		port
+		(
+			switches						: in std_logic_vector(7 downto 0);
+			KEY0, KEY1, SW9 			: std_logic;
+			HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6 : out std_logic;
+			LEDR3												  : out std_loigc	
+		);
+		
+end bcdaddsub;
+
+architecture n of bcdaddsub is
+	
+		signal a, b	: std_logic_vector(7 downto 0);
+		signal b_temp0, b_temp1, sum_temp0, sum_temp1 : std_logic_vector(4 downto 0);
+		signal sum_temp0_adj, sum_temp1_adj				 : std_logic_vector(4 downto 0);
+		signal carry, carryin, overflow : std_logic;
+		signal sum0, sum1 : std_logic_vector(3 downto 0);
+		signal d1, d2, d3, d4, d5, d6 : std_logic_vector(6 downto 0);
+begin
+
+	process (switches, KEY0, KEY1) is
+	begin
+		if(KEY1 = '0') then
+		a <= (switches);
+			case (a(7 downto 4)) is
+				when "0000" => d1 <= "0000001";
+				when "0001" => d1 <= "1001111";
+				when "0010" => d1 <= "0010010";
+				when "0011" => d1 <= "0000110";
+				when "0100" => d1 <= "1001100";
+				when "0101" => d1 <= "0100100";
+				when "0110" => d1 <= "0100000";
+				when "0111" => d1 <= "0001111";
+				when "1000" => d1 <= "0000000";
+				when "1001" => d1 <= "0000100";
+				when others => d1 <= "1111111";
+			end case;
+			
+			case (a(3 downto 0)) is
+				when "0000" => d2 <= "0000001";
+				when "0001" => d2 <= "1001111";
+				when "0010" => d2 <= "0010010";
+				when "0011" => d2 <= "0000110";
+				when "0100" => d2 <= "1001100";
+				when "0101" => d2 <= "0100100";
+				when "0110" => d2 <= "0100000";
+				when "0111" => d2 <= "0001111";
+				when "1000" => d2 <= "0000000";
+				when "1001" => d2 <= "0000100";
+				when others => d2 <= "1111111";
+			end case;
+			
+		elsif (KEY0 = '0') then
+		b <= (switches);
+			case (b(7 downto 4)) is
+				when "0000" => d3 <= "0000001";
+				when "0001" => d3 <= "1001111";
+				when "0010" => d3 <= "0010010";
+				when "0011" => d3 <= "0000110";
+				when "0100" => d3 <= "1001100";
+				when "0101" => d3 <= "0100100";
+				when "0110" => d3 <= "0100000";
+				when "0111" => d3 <= "0001111";
+				when "1000" => d3 <= "0000000";
+				when "1001" => d3 <= "0000100";
+				when others => d3 <= "1111111";
+			end case;
+				
+			case (b(3 downto 0)) is
+				when "0000" => d4 <= "0000001";
+				when "0001" => d4<= "1001111";
+				when "0010" => d4 <= "0010010";
+				when "0011" => d4 <= "0000110";
+				when "0100" => d4 <= "1001100";
+				when "0101" => d4 <= "0100100";
+				when "0110" => d4 <= "0100000";
+				when "0111" => d4 <= "0001111";
+				when "1000" => d4 <= "0000000";
+				when "1001" => d4 <= "0000100";
+				when others => d4 <= "1111111";
+			end case;

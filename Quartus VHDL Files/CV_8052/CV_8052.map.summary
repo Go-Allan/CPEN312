@@ -1,0 +1,17 @@
+Analysis & Synthesis Status : Successful - Sat Mar 09 10:38:40 2019
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : CV_8052
+Top-level Entity Name : CV_8052
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 1684
+Total pins : 136
+Total virtual pins : 0
+Total block memory bits : 843,866
+Total DSP Blocks : 1
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 1
+Total DLLs : 0

@@ -1,0 +1,76 @@
+MIF/HEX Update report for CV_8052
+Fri Oct 16 09:52:57 2015
+Quartus II 64-Bit Version 15.0.1 Build 150 06/03/2015 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. MIF/HEX Update Summary
+  3. MIF/HEX Update Processed Files
+  4. MIF/HEX Update Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++---------------------------------------------------------------+
+; MIF/HEX Update Summary                                        ;
++-----------------------+---------------------------------------+
+; MIF/HEX Update Status ; Successful - Fri Oct 16 09:52:57 2015 ;
+; Revision Name         ; CV_8052                               ;
+; Top-level Entity Name ; CV_8052                               ;
+; Family                ; Cyclone V                             ;
+; Device                ; 5CEBA4F23C7                           ;
++-----------------------+---------------------------------------+
+
+
++------------------------------------------------------------+
+; MIF/HEX Update Processed Files                             ;
++------------------------------------------------------------+
+; File Name                                                  ;
++------------------------------------------------------------+
+; C:/Source/CV_8052/CV_Boot_SPI.mif                          ;
+; C:/Source/CV_8052/CV_Zeros.mif                             ;
+; C:/Source/CV_8052/db/CV_8052.ram0_T51_RAM_847c76c8.hdl.mif ;
++------------------------------------------------------------+
+
+
++-------------------------+
+; MIF/HEX Update Messages ;
++-------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit MIF/HEX Update
+    Info: Version 15.0.1 Build 150 06/03/2015 SJ Web Edition
+    Info: Processing started: Fri Oct 16 09:52:35 2015
+Info: Command: quartus_cdb CV_8052 -c CV_8052 --update_mif
+Info (39024): Processed the following Memory Initialization File(s)
+    Info (39025): Processed Memory Initialization File C:/Source/CV_8052/CV_Boot_SPI.mif
+    Info (39025): Processed Memory Initialization File C:/Source/CV_8052/CV_Zeros.mif
+    Info (39025): Processed Memory Initialization File C:/Source/CV_8052/db/CV_8052.ram0_T51_RAM_847c76c8.hdl.mif
+Info: Quartus II 64-Bit MIF/HEX Update was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 748 megabytes
+    Info: Processing ended: Fri Oct 16 09:52:57 2015
+    Info: Elapsed time: 00:00:22
+    Info: Total CPU time (on all processors): 00:00:22
+
+

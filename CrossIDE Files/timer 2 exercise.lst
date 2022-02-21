@@ -1,0 +1,381 @@
+0000              1   
+                 -1   $MODDE0CV
+0000              1   ;  MODDDE2: Register definition for DE2-8052 softcore
+0000              2   ;
+0000              3   ;   Copyright (C) 2011  Jesus Calvino-Fraga, jesusc at ece.ubc.ca
+0000              4   ;
+0000              5   ;   This library is free software; you can redistribute it and/or
+0000              6   ;   modify it under the terms of the GNU Lesser General Public
+0000              7   ;   License as published by the Free Software Foundation; either
+0000              8   ;   version 2.1 of the License, or (at your option) any later version.
+0000              9   ;
+0000             10   ;   This library is distributed in the hope that it will be useful,
+0000             11   ;   but WITHOUT ANY WARRANTY; without even the implied warranty of
+0000             12   ;   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+0000             13   ;   Lesser General Public License for more details.
+0000             14   ;
+0000             15   ;   You should have received a copy of the GNU Lesser General Public
+0000             16   ;   License along with this library; if not, write to the Free Software
+0000             17   ;   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+0000             18   ;
+0000             19       
+0000             20   P0     DATA  080H  ;PORT 0
+0000             21   SP     DATA  081H  ;STACK POINTER
+0000             22   DPL    DATA  082H  ;DATA POINTER 0 - LOW BYTE
+0000             23   DPH    DATA  083H  ;DATA POINTER 0 - HIGH BYTE
+0000             24   DPL1   DATA  084H  ;DATA POINTER 1 - LOW BYTE
+0000             25   DPH1   DATA  085H  ;DATA POINTER 1 - HIGH BYTE
+0000             26   DPS    DATA  086H  ;DATA POINTER SELECT. DPH1, DPL1 active when DPS.0=1
+0000             27   PCON   DATA  087H  ;POWER CONTROL
+0000             28   TCON   DATA  088H  ;TIMER CONTROL
+0000             29   TMOD   DATA  089H  ;TIMER MODE
+0000             30   TL0    DATA  08AH  ;TIMER 0 - LOW BYTE
+0000             31   TL1    DATA  08BH  ;TIMER 1 - LOW BYTE
+0000             32   TH0    DATA  08CH  ;TIMER 0 - HIGH BYTE
+0000             33   TH1    DATA  08DH  ;TIMER 1 - HIGH BYTE
+0000             34   P1     DATA  090H  ;PORT 1
+0000             35   SCON   DATA  098H  ;SERIAL PORT CONTROL
+0000             36   SBUF   DATA  099H  ;SERIAL PORT BUFFER
+0000             37   P2     DATA  0A0H  ;PORT 2
+0000             38   IE     DATA  0A8H  ;INTERRUPT ENABLE
+0000             39   P3     DATA  0B0H  ;PORT 3
+0000             40   IP     DATA  0B8H  ;INTERRUPT PRIORITY
+0000             41   T2CON  DATA  0C8H  ;TIMER 2 CONTROL
+0000             42   T2MOD  DATA  0C9H  ;TIMER 2 MODE
+0000             43   RCAP2L DATA  0CAH  ;TIMER 2 CAPTURE REGISTER - LOW BYTE
+0000             44   RCAP2H DATA  0CBH  ;TIMER 2 CAPTURE REGISTER - HIGH BYTE
+0000             45   TL2    DATA  0CCH  ;TIMER 2 - LOW BYTE
+0000             46   TH2    DATA  0CDH  ;TIMER 2 - HIGH BYTE
+0000             47   PSW    DATA  0D0H  ;PROGRAM STATUS WORD
+0000             48   ACC    DATA  0E0H  ;ACCUMULATOR
+0000             49   B      DATA  0F0H  ;MULTIPLICATION REGISTER
+0000             50   IT0    BIT   088H  ;TCON.0 - EXT. INTERRUPT 0 TYPE
+0000             51   IE0    BIT   089H  ;TCON.1 - EXT. INTERRUPT 0 EDGE FLAG
+0000             52   IT1    BIT   08AH  ;TCON.2 - EXT. INTERRUPT 1 TYPE
+0000             53   IE1    BIT   08BH  ;TCON.3 - EXT. INTERRUPT 1 EDGE FLAG
+0000             54   TR0    BIT   08CH  ;TCON.4 - TIMER 0 ON/OFF CONTROL
+0000             55   TF0    BIT   08DH  ;TCON.5 - TIMER 0 OVERFLOW FLAG
+0000             56   TR1    BIT   08EH  ;TCON.6 - TIMER 1 ON/OFF CONTROL
+0000             57   TF1    BIT   08FH  ;TCON.7 - TIMER 1 OVERFLOW FLAG
+0000             58   RI     BIT   098H  ;SCON.0 - RECEIVE INTERRUPT FLAG
+0000             59   TI     BIT   099H  ;SCON.1 - TRANSMIT INTERRUPT FLAG
+0000             60   RB8    BIT   09AH  ;SCON.2 - RECEIVE BIT 8
+0000             61   TB8    BIT   09BH  ;SCON.3 - TRANSMIT BIT 8
+0000             62   REN    BIT   09CH  ;SCON.4 - RECEIVE ENABLE
+0000             63   SM2    BIT   09DH  ;SCON.5 - SERIAL MODE CONTROL BIT 2
+0000             64   SM1    BIT   09EH  ;SCON.6 - SERIAL MODE CONTROL BIT 1
+0000             65   SM0    BIT   09FH  ;SCON.7 - SERIAL MODE CONTROL BIT 0
+0000             66   EX0    BIT   0A8H  ;IE.0 - EXTERNAL INTERRUPT 0 ENABLE
+0000             67   ET0    BIT   0A9H  ;IE.1 - TIMER 0 INTERRUPT ENABLE
+0000             68   EX1    BIT   0AAH  ;IE.2 - EXTERNAL INTERRUPT 1 ENABLE
+0000             69   ET1    BIT   0ABH  ;IE.3 - TIMER 1 INTERRUPT ENABLE
+0000             70   ES     BIT   0ACH  ;IE.4 - SERIAL PORT INTERRUPT ENABLE
+0000             71   ET2    BIT   0ADH  ;IE.5 - TIMER 2 INTERRUPT ENABLE
+0000             72   EA     BIT   0AFH  ;IE.7 - GLOBAL INTERRUPT ENABLE
+0000             73   RXD    BIT   0B0H  ;P3.0 - SERIAL PORT RECEIVE INPUT
+0000             74   TXD    BIT   0B1H  ;P3.1 - SERIAL PORT TRANSMIT OUTPUT
+0000             75   INT0   BIT   0B2H  ;P3.2 - EXTERNAL INTERRUPT 0 INPUT
+0000             76   INT1   BIT   0B3H  ;P3.3 - EXTERNAL INTERRUPT 1 INPUT
+0000             77   T0     BIT   0B4H  ;P3.4 - TIMER 0 COUNT INPUT
+0000             78   T1     BIT   0B5H  ;P3.5 - TIMER 1 COUNT INPUT
+0000             79   WR     BIT   0B6H  ;P3.6 - WRITE CONTROL FOR EXT. MEMORY
+0000             80   RD     BIT   0B7H  ;P3.7 - READ CONTROL FOR EXT. MEMORY
+0000             81   PX0    BIT   0B8H  ;IP.0 - EXTERNAL INTERRUPT 0 PRIORITY
+0000             82   PT0    BIT   0B9H  ;IP.1 - TIMER 0 PRIORITY
+0000             83   PX1    BIT   0BAH  ;IP.2 - EXTERNAL INTERRUPT 1 PRIORITY
+0000             84   PT1    BIT   0BBH  ;IP.3 - TIMER 1 PRIORITY
+0000             85   PS     BIT   0BCH  ;IP.4 - SERIAL PORT PRIORITY
+0000             86   PT2    BIT   0BDH  ;IP.5 - TIMER 2 PRIORITY
+0000             87   CAP2   BIT   0C8H  ;T2CON.0 - CAPTURE OR RELOAD SELECT
+0000             88   CNT2   BIT   0C9H  ;T2CON.1 - TIMER OR COUNTER SELECT
+0000             89   TR2    BIT   0CAH  ;T2CON.2 - TIMER 2 ON/OFF CONTROL
+0000             90   EXEN2  BIT   0CBH  ;T2CON.3 - TIMER 2 EXTERNAL ENABLE FLAG
+0000             91   TCLK   BIT   0CCH  ;T2CON.4 - TRANSMIT CLOCK SELECT
+0000             92   RCLK   BIT   0CDH  ;T2CON.5 - RECEIVE CLOCK SELECTT
+0000             93   EXF2   BIT   0CEH  ;T2CON.6 - EXTERNAL TRANSITION FLAG
+0000             94   TF2    BIT   0CFH  ;T2CON.7 - TIMER 2 OVERFLOW FLAG
+0000             95   P      BIT   0D0H  ;PSW.0 - ACCUMULATOR PARITY FLAG
+0000             96   OV     BIT   0D2H  ;PSW.2 - OVERFLOW FLAG
+0000             97   RS0    BIT   0D3H  ;PSW.3 - REGISTER BANK SELECT 0
+0000             98   RS1    BIT   0D4H  ;PSW.4 - REGISTER BANK SELECT 1
+0000             99   F0     BIT   0D5H  ;PSW.5 - FLAG 0
+0000            100   AC     BIT   0D6H  ;PSW.6 - AUXILIARY CARRY FLAG
+0000            101   CY     BIT   0D7H  ;PSW.7 - CARRY FLAG
+0000            102   
+0000            103   ; For the altera DE2 configured with an 8051/8052 softcore processor
+0000            104   ; we have the following extra registers:
+0000            105   
+0000            106   HEX0   DATA  091H ; Zero turns the segment on
+0000            107   HEX1   DATA  092H ; 
+0000            108   HEX2   DATA  093H ; 
+0000            109   HEX3   DATA  094H ; 
+0000            110   HEX4   DATA  08EH ;
+0000            111   HEX5   DATA  08FH ;
+0000            112   HEX6   DATA  096H ;
+0000            113   HEX7   DATA  097H ;
+0000            114   
+0000            115   P0MOD  DATA  09AH ; Input/output mode bits for port 0.  '1' sets the port to output mode.
+0000            116   P1MOD  DATA  09BH ; Input/output mode bits for port 1
+0000            117   P2MOD  DATA  09CH ; Input/output mode bits for port 2
+0000            118   P3MOD  DATA  09DH ; Input/output mode bits for port 3
+0000            119   
+0000            120   LEDRA  DATA  0E8H ; LEDs LEDR0 to LEDR7 (bit addressable, ex: LEDRA.1 for LEDR1)
+0000            121   LEDRB  DATA  095H ; LEDs LEDR8 to LEDR15
+0000            122   LEDRC  DATA  09EH ; LEDs LEDR16, LEDR15, and LEDG8
+0000            123   LEDG   DATA  0F8H ; LEDs LEDG0 to LEDG7 (bit addressable, ex: LEDG.3 for LEDG3)
+0000            124   SWA    DATA  0E8H ; Switches SW0 to SW7 (bit addressable, ex: SWA.1 for SW1)
+0000            125   SWB    DATA  095H ; Switches SW8 to SW15
+0000            126   SWC    DATA  09EH ; Switches SW16 and SW17
+0000            127   KEY    DATA  0F8H ; KEY1=KEY.1, KEY2=KEY.2, KEY3=KEY.3.  KEY0 is the reset button! 
+0000            128   
+0000            129   LCD_CMD   DATA 0D8H ;
+0000            130   LCD_DATA  DATA 0D9H ;
+0000            131   LCD_MOD   DATA 0DAH ; Write 0xff to make LCD_DATA an output
+0000            132   LCD_RW    BIT  0D8H ; '0' writes to LCD
+0000            133   LCD_EN    BIT  0D9H ; Toggle from '1' to '0'
+0000            134   LCD_RS    BIT  0DAH ; '0' for commands, '1' for data
+0000            135   LCD_ON    BIT  0DBH ; Write '1' to power the LCD
+0000            136   LCD_BLON  BIT  0DCH ; Write '1' to turn on back light
+0000            137   
+0000            138   FLASH_CMD  data 0DBH ; The control bits of the flash memory:
+0000            139   ; bit 0: FL_RST_N  Set to 1 for normal operation
+0000            140   ; bit 1: FL_WE_N
+0000            141   ; bit 2: FL_OE_N
+0000            142   ; bit 3: FL_CE_N
+0000            143   FLASH_DATA data 0DCH ; 8-bit data bus of flash memory.
+0000            144   FLASH_MOD  data 0DDH ; 0xff makes FLASH_DATA output.  0x00 makes FLASH_DATA input.
+0000            145   FLASH_ADD0 data 0E1H ; address bits 0 to 7.
+0000            146   FLASH_ADD1 data 0E2H ; address bits 8 to 15.
+0000            147   FLASH_ADD2 data 0E3H ; address bits 16 to 21.
+0000            148   
+0000              3   
+0000              4   org 0h
+0000 020036       5   ljmp start
+0003              6   
+0003              7   ;interrupt dictionary
+0003              8   org 3h ;external interrupt 0
+0003 32           9   reti
+000B             10   org 0bh ; timer 0 interrupt
+000B 02006B      11   ljmp count
+0013             12   org 13h ;ex interrupt 1
+0013 32          13   reti
+001B             14   org 1bh ;t1 interrupt
+001B 32          15   reti
+0023             16   org 23h ;serial port interrupt
+0023 32          17   reti
+002B             18   org 2bh ;t2 interrupt
+002B 32          19   reti
+002C             20            
+002C             21   ;lookup tables
+002C             22   T_7SEG:
+002C 40792430    23            DB 40H, 79H, 24H, 30H, 19H
+     19
+0031 12027800    24            DB 12H, 02H, 78H, 00H, 10H 
+     10
+0036             25            
+0036             26   start:
+0036             27   ;initalize the registers in bank 1 that will count
+0036 7A00        28   mov r2, #0
+0038 75817F      29   mov sp, #7fh ;!!!!remember to initalize stack pointer!!
+003B 90002C      30   mov dptr, #T_7SEG
+003E E9          31   mov a, r1
+003F 93          32   movc a, @dptr+a
+0040 F591        33   mov HEX0, a
+0042 EA          34   mov a, r2
+0043 93          35   movc a, @dptr+a 
+0044 F592        36   mov HEX1, a
+0046             37   
+0046 C0D0        38   push psw
+0048 75D008      39   mov psw, #00001000b
+004B 7800        40   mov R0, #0
+004D 7900        41   mov R1, #0
+004F D0D0        42   pop psw
+0051             43   
+0051             44   ;enable timer 0
+0051 E589        45   mov a, TMOD
+0053 54F0        46   anl a, #11110000B ;1111 0000 which clears timer 0 without affecting timer 1
+0055 4401        47   orl a, #00000001b; mode 1
+0057 F589        48   mov TMOD, A
+0059 C28C        49   clr TR0;reset timer
+005B 758C26      50   mov TH0, #high(9981); THIS IS THE INTERUPT RATE!
+005E 758AFD      51   mov TL0, #low(9981)
+0061 C28D        52   clr TF0;clear timer flag
+0063 D28C        53   setb TR0; enable timer0
+0065 D2A9        54   setb ET0 ;enable timer 0 interrupt
+0067 D2AF        55   setb EA; enable all interrupts
+0069             56   
+0069             57   ;enable timer 2
+0069             58   ;mov a, TMOD
+0069             59   ;anl a, #11110000B ;1111 0000 which clears timer 0 without affecting timer 1
+0069             60   ;orl a, #00000001b; mode 1
+0069             61   ;mov TMOD, A
+0069             62   ;clr TR0;reset timer
+0069             63   ;mov TH0, #high(9981); THIS IS THE INTERUPT RATE!
+0069             64   ;mov TL0, #low(9981)
+0069             65   ;clr TF0;clear timer flag
+0069             66   ;setb TR0; enable timer0
+0069             67   ;setb ET0 ;enable timer 0 interrupt
+0069             68   ;setb EA; enable all interrupts
+0069             69   
+0069             70   forever:
+0069 80FE        71   jmp forever
+006B             72   
+006B             73   ;the counting ISR
+006B             74   ;pulse:
+006B             75   ;        jnb TF0, pulse
+006B             76   ;        cpl LEDRA.0
+006B             77   ;        reti
+006B             78   count:
+006B             79   ;if the number in register 1 is 9, then make it zero and increment high
+006B B9090C      80   cjne R1, #9, inclow
+006E 7900        81   mov r1, #0
+0070 B80904      82   cjne R0, #9, inchigh;check if it is 99, if so make high 0 as well
+0073 7800        83   mov r0, #0
+0075 8004        84   sjmp display
+0077             85   inchigh:
+0077 08          86   inc r0
+0078 8001        87   sjmp display
+007A             88   inclow:
+007A 09          89   inc r1
+007B             90   
+007B             91   display:
+007B 90002C      92   mov dptr, #T_7SEG
+007E E9          93   mov a, r1
+007F 93          94   movc a, @dptr+a
+0080 F591        95   mov HEX0, a
+0082 E8          96   mov a, r0
+0083 93          97   movc a, @dptr+a 
+0084 F592        98   mov HEX1, a
+0086             99   
+0086            100   wait:
+0086 D0E0       101   pop acc
+0088 D0D0       102   pop psw ;pulls the original psw from the previous push
+008A 32         103   reti
+008B            104   
+008B            105   
+008B            106   
+008B            107   
+008B            108   
+008B            109   
+008B            110   
+008B            111   
+008B            112   
+008B            113   
+008B            114   
+008B            115   
+008B            116   
+008B            117   
+008B            118   
+008B            119   
+008B            120   
+008B            121   
+008B            122   
+008B            123   
+008B            124   
+008B            125   
+008B            126   
+008B            127   
+008B            128   
+008B            129   
+008B            130   
+008B            131   
+008B            132   
+008B            133   
+008B            134   
+008B            135   
+008B            136   
+008B            137   
+008B            138   
+008B            139   
+008B            140   
+008B            141   
+008B            142   
+008B            143   
+008B            144   
+008B            145   
+008B            146   
+008B            147   
+008B            148   
+008B            149   
+008B            150   
+008B            151   
+008B            152   
+008B            153   
+008B            154   
+008B            155   
+008B            156   
+008B            157   
+008B            158   
+008B            159   
+008B            160   
+008B            161   
+008B            162   
+008B            163   
+008B            164   
+008B            165   
+008B            166   
+008B            167   
+008B            168   
+008B            169   
+008B            170   
+008B            171   
+008B            172   
+008B            173   
+008B            174   
+008B            175   
+008B            176   
+008B            177   
+008B            178   
+008B            179   
+008B            180   
+008B            181   
+008B            182   
+008B            183   
+008B            184   
+008B            185   
+008B            186   
+008B            187   
+008B            188   
+008B            189   
+008B            190   
+008B            191   
+008B            192   
+008B            193   
+008B            194   
+008B            195   
+008B            196   
+008B            197   
+008B            198   
+008B            199   
+008B            200   
+008B            201   
+008B            202   
+008B            203   
+008B            204   
+008B            205   
+008B            206   
+008B            207   
+008B            208   
+008B            209   
+008B            210   
+008B            211   
+008B            212   
+008B            213   
+008B            214   
+008B            215   
+008B            216   
+008B            217   
+008B            218   
+008B            219   
+008B            220   
+008B            221   
+008B            222   
+008B            223   
+008B            224   
+008B            225   
+008B            226   
+008B            227   
+008B            228   
+008B            229   
+008B            230   
+008B            231   

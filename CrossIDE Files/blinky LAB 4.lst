@@ -1,0 +1,970 @@
+                 -1   $MODDE0CV
+0000              1   ;  MODDDE2: Register definition for DE2-8052 softcore
+0000              2   ;
+0000              3   ;   Copyright (C) 2011  Jesus Calvino-Fraga, jesusc at ece.ubc.ca
+0000              4   ;
+0000              5   ;   This library is free software; you can redistribute it and/or
+0000              6   ;   modify it under the terms of the GNU Lesser General Public
+0000              7   ;   License as published by the Free Software Foundation; either
+0000              8   ;   version 2.1 of the License, or (at your option) any later version.
+0000              9   ;
+0000             10   ;   This library is distributed in the hope that it will be useful,
+0000             11   ;   but WITHOUT ANY WARRANTY; without even the implied warranty of
+0000             12   ;   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+0000             13   ;   Lesser General Public License for more details.
+0000             14   ;
+0000             15   ;   You should have received a copy of the GNU Lesser General Public
+0000             16   ;   License along with this library; if not, write to the Free Software
+0000             17   ;   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+0000             18   ;
+0000             19       
+0000             20   P0     DATA  080H  ;PORT 0
+0000             21   SP     DATA  081H  ;STACK POINTER
+0000             22   DPL    DATA  082H  ;DATA POINTER 0 - LOW BYTE
+0000             23   DPH    DATA  083H  ;DATA POINTER 0 - HIGH BYTE
+0000             24   DPL1   DATA  084H  ;DATA POINTER 1 - LOW BYTE
+0000             25   DPH1   DATA  085H  ;DATA POINTER 1 - HIGH BYTE
+0000             26   DPS    DATA  086H  ;DATA POINTER SELECT. DPH1, DPL1 active when DPS.0=1
+0000             27   PCON   DATA  087H  ;POWER CONTROL
+0000             28   TCON   DATA  088H  ;TIMER CONTROL
+0000             29   TMOD   DATA  089H  ;TIMER MODE
+0000             30   TL0    DATA  08AH  ;TIMER 0 - LOW BYTE
+0000             31   TL1    DATA  08BH  ;TIMER 1 - LOW BYTE
+0000             32   TH0    DATA  08CH  ;TIMER 0 - HIGH BYTE
+0000             33   TH1    DATA  08DH  ;TIMER 1 - HIGH BYTE
+0000             34   P1     DATA  090H  ;PORT 1
+0000             35   SCON   DATA  098H  ;SERIAL PORT CONTROL
+0000             36   SBUF   DATA  099H  ;SERIAL PORT BUFFER
+0000             37   P2     DATA  0A0H  ;PORT 2
+0000             38   IE     DATA  0A8H  ;INTERRUPT ENABLE
+0000             39   P3     DATA  0B0H  ;PORT 3
+0000             40   IP     DATA  0B8H  ;INTERRUPT PRIORITY
+0000             41   T2CON  DATA  0C8H  ;TIMER 2 CONTROL
+0000             42   T2MOD  DATA  0C9H  ;TIMER 2 MODE
+0000             43   RCAP2L DATA  0CAH  ;TIMER 2 CAPTURE REGISTER - LOW BYTE
+0000             44   RCAP2H DATA  0CBH  ;TIMER 2 CAPTURE REGISTER - HIGH BYTE
+0000             45   TL2    DATA  0CCH  ;TIMER 2 - LOW BYTE
+0000             46   TH2    DATA  0CDH  ;TIMER 2 - HIGH BYTE
+0000             47   PSW    DATA  0D0H  ;PROGRAM STATUS WORD
+0000             48   ACC    DATA  0E0H  ;ACCUMULATOR
+0000             49   B      DATA  0F0H  ;MULTIPLICATION REGISTER
+0000             50   IT0    BIT   088H  ;TCON.0 - EXT. INTERRUPT 0 TYPE
+0000             51   IE0    BIT   089H  ;TCON.1 - EXT. INTERRUPT 0 EDGE FLAG
+0000             52   IT1    BIT   08AH  ;TCON.2 - EXT. INTERRUPT 1 TYPE
+0000             53   IE1    BIT   08BH  ;TCON.3 - EXT. INTERRUPT 1 EDGE FLAG
+0000             54   TR0    BIT   08CH  ;TCON.4 - TIMER 0 ON/OFF CONTROL
+0000             55   TF0    BIT   08DH  ;TCON.5 - TIMER 0 OVERFLOW FLAG
+0000             56   TR1    BIT   08EH  ;TCON.6 - TIMER 1 ON/OFF CONTROL
+0000             57   TF1    BIT   08FH  ;TCON.7 - TIMER 1 OVERFLOW FLAG
+0000             58   RI     BIT   098H  ;SCON.0 - RECEIVE INTERRUPT FLAG
+0000             59   TI     BIT   099H  ;SCON.1 - TRANSMIT INTERRUPT FLAG
+0000             60   RB8    BIT   09AH  ;SCON.2 - RECEIVE BIT 8
+0000             61   TB8    BIT   09BH  ;SCON.3 - TRANSMIT BIT 8
+0000             62   REN    BIT   09CH  ;SCON.4 - RECEIVE ENABLE
+0000             63   SM2    BIT   09DH  ;SCON.5 - SERIAL MODE CONTROL BIT 2
+0000             64   SM1    BIT   09EH  ;SCON.6 - SERIAL MODE CONTROL BIT 1
+0000             65   SM0    BIT   09FH  ;SCON.7 - SERIAL MODE CONTROL BIT 0
+0000             66   EX0    BIT   0A8H  ;IE.0 - EXTERNAL INTERRUPT 0 ENABLE
+0000             67   ET0    BIT   0A9H  ;IE.1 - TIMER 0 INTERRUPT ENABLE
+0000             68   EX1    BIT   0AAH  ;IE.2 - EXTERNAL INTERRUPT 1 ENABLE
+0000             69   ET1    BIT   0ABH  ;IE.3 - TIMER 1 INTERRUPT ENABLE
+0000             70   ES     BIT   0ACH  ;IE.4 - SERIAL PORT INTERRUPT ENABLE
+0000             71   ET2    BIT   0ADH  ;IE.5 - TIMER 2 INTERRUPT ENABLE
+0000             72   EA     BIT   0AFH  ;IE.7 - GLOBAL INTERRUPT ENABLE
+0000             73   RXD    BIT   0B0H  ;P3.0 - SERIAL PORT RECEIVE INPUT
+0000             74   TXD    BIT   0B1H  ;P3.1 - SERIAL PORT TRANSMIT OUTPUT
+0000             75   INT0   BIT   0B2H  ;P3.2 - EXTERNAL INTERRUPT 0 INPUT
+0000             76   INT1   BIT   0B3H  ;P3.3 - EXTERNAL INTERRUPT 1 INPUT
+0000             77   T0     BIT   0B4H  ;P3.4 - TIMER 0 COUNT INPUT
+0000             78   T1     BIT   0B5H  ;P3.5 - TIMER 1 COUNT INPUT
+0000             79   WR     BIT   0B6H  ;P3.6 - WRITE CONTROL FOR EXT. MEMORY
+0000             80   RD     BIT   0B7H  ;P3.7 - READ CONTROL FOR EXT. MEMORY
+0000             81   PX0    BIT   0B8H  ;IP.0 - EXTERNAL INTERRUPT 0 PRIORITY
+0000             82   PT0    BIT   0B9H  ;IP.1 - TIMER 0 PRIORITY
+0000             83   PX1    BIT   0BAH  ;IP.2 - EXTERNAL INTERRUPT 1 PRIORITY
+0000             84   PT1    BIT   0BBH  ;IP.3 - TIMER 1 PRIORITY
+0000             85   PS     BIT   0BCH  ;IP.4 - SERIAL PORT PRIORITY
+0000             86   PT2    BIT   0BDH  ;IP.5 - TIMER 2 PRIORITY
+0000             87   CAP2   BIT   0C8H  ;T2CON.0 - CAPTURE OR RELOAD SELECT
+0000             88   CNT2   BIT   0C9H  ;T2CON.1 - TIMER OR COUNTER SELECT
+0000             89   TR2    BIT   0CAH  ;T2CON.2 - TIMER 2 ON/OFF CONTROL
+0000             90   EXEN2  BIT   0CBH  ;T2CON.3 - TIMER 2 EXTERNAL ENABLE FLAG
+0000             91   TCLK   BIT   0CCH  ;T2CON.4 - TRANSMIT CLOCK SELECT
+0000             92   RCLK   BIT   0CDH  ;T2CON.5 - RECEIVE CLOCK SELECTT
+0000             93   EXF2   BIT   0CEH  ;T2CON.6 - EXTERNAL TRANSITION FLAG
+0000             94   TF2    BIT   0CFH  ;T2CON.7 - TIMER 2 OVERFLOW FLAG
+0000             95   P      BIT   0D0H  ;PSW.0 - ACCUMULATOR PARITY FLAG
+0000             96   OV     BIT   0D2H  ;PSW.2 - OVERFLOW FLAG
+0000             97   RS0    BIT   0D3H  ;PSW.3 - REGISTER BANK SELECT 0
+0000             98   RS1    BIT   0D4H  ;PSW.4 - REGISTER BANK SELECT 1
+0000             99   F0     BIT   0D5H  ;PSW.5 - FLAG 0
+0000            100   AC     BIT   0D6H  ;PSW.6 - AUXILIARY CARRY FLAG
+0000            101   CY     BIT   0D7H  ;PSW.7 - CARRY FLAG
+0000            102   
+0000            103   ; For the altera DE2 configured with an 8051/8052 softcore processor
+0000            104   ; we have the following extra registers:
+0000            105   
+0000            106   HEX0   DATA  091H ; Zero turns the segment on
+0000            107   HEX1   DATA  092H ; 
+0000            108   HEX2   DATA  093H ; 
+0000            109   HEX3   DATA  094H ; 
+0000            110   HEX4   DATA  08EH ;
+0000            111   HEX5   DATA  08FH ;
+0000            112   HEX6   DATA  096H ;
+0000            113   HEX7   DATA  097H ;
+0000            114   
+0000            115   P0MOD  DATA  09AH ; Input/output mode bits for port 0.  '1' sets the port to output mode.
+0000            116   P1MOD  DATA  09BH ; Input/output mode bits for port 1
+0000            117   P2MOD  DATA  09CH ; Input/output mode bits for port 2
+0000            118   P3MOD  DATA  09DH ; Input/output mode bits for port 3
+0000            119   
+0000            120   LEDRA  DATA  0E8H ; LEDs LEDR0 to LEDR7 (bit addressable, ex: LEDRA.1 for LEDR1)
+0000            121   LEDRB  DATA  095H ; LEDs LEDR8 to LEDR15
+0000            122   LEDRC  DATA  09EH ; LEDs LEDR16, LEDR15, and LEDG8
+0000            123   LEDG   DATA  0F8H ; LEDs LEDG0 to LEDG7 (bit addressable, ex: LEDG.3 for LEDG3)
+0000            124   SWA    DATA  0E8H ; Switches SW0 to SW7 (bit addressable, ex: SWA.1 for SW1)
+0000            125   SWB    DATA  095H ; Switches SW8 to SW15
+0000            126   SWC    DATA  09EH ; Switches SW16 and SW17
+0000            127   KEY    DATA  0F8H ; KEY1=KEY.1, KEY2=KEY.2, KEY3=KEY.3.  KEY0 is the reset button! 
+0000            128   
+0000            129   LCD_CMD   DATA 0D8H ;
+0000            130   LCD_DATA  DATA 0D9H ;
+0000            131   LCD_MOD   DATA 0DAH ; Write 0xff to make LCD_DATA an output
+0000            132   LCD_RW    BIT  0D8H ; '0' writes to LCD
+0000            133   LCD_EN    BIT  0D9H ; Toggle from '1' to '0'
+0000            134   LCD_RS    BIT  0DAH ; '0' for commands, '1' for data
+0000            135   LCD_ON    BIT  0DBH ; Write '1' to power the LCD
+0000            136   LCD_BLON  BIT  0DCH ; Write '1' to turn on back light
+0000            137   
+0000            138   FLASH_CMD  data 0DBH ; The control bits of the flash memory:
+0000            139   ; bit 0: FL_RST_N  Set to 1 for normal operation
+0000            140   ; bit 1: FL_WE_N
+0000            141   ; bit 2: FL_OE_N
+0000            142   ; bit 3: FL_CE_N
+0000            143   FLASH_DATA data 0DCH ; 8-bit data bus of flash memory.
+0000            144   FLASH_MOD  data 0DDH ; 0xff makes FLASH_DATA output.  0x00 makes FLASH_DATA input.
+0000            145   FLASH_ADD0 data 0E1H ; address bits 0 to 7.
+0000            146   FLASH_ADD1 data 0E2H ; address bits 8 to 15.
+0000            147   FLASH_ADD2 data 0E3H ; address bits 16 to 21.
+0000            148   
+0000              2   
+0000              3   seven    equ 78H
+0000              4   zero     equ 40H
+0000              5   two      equ 24H
+0000              6   six      equ 02H
+0000              7   three    equ 30H
+0000              8   four     equ 19H
+0000              9   BLANK    equ 01111111b
+0000             10   
+0000             11   org 0
+0000 02005D      12            ljmp init
+0003             13            
+0003             14   wait:
+0003 7A5A        15       mov R2, #90       ; 90 is 5AH
+0005 79FA        16   L3: mov R1, #250      ; 250 is FAH 
+0007 78FA        17   L2: mov R0, #250
+0009 30FB62      18   L1: jnb KEY.3, CHECK0 ; checks if KEY3 is pressed
+000C D8FB        19            djnz R0, L1       ; 3 machine cycles-> 3*30ns*250=22.5us
+000E D9F7        20       djnz R1, L2       ; 22.5us*250=5.625ms
+0010 DAF3        21       djnz R2, L3            ; 5.625ms*90=0.506s (approximately)
+0012 22          22            ret
+0013             23            
+0013             24   waitabit:
+0013 7A2D        25       mov R2, #45       ; 90 is 5AH
+0015 79FA        26   L9: mov R1, #250      ; 250 is FAH 
+0017 78FA        27   L8: mov R0, #250
+0019 30FB52      28   L7: jnb KEY.3, CHECK0 ; checks if KEY3 is pressed
+001C D8EB        29            djnz R0, L1       ; 3 machine cycles-> 3*30ns*250=22.5us
+001E D9E7        30       djnz R1, L2       ; 22.5us*250=5.625ms
+0020 DAE3        31       djnz R2, L3            ; 5.625ms*45=0.2503s (approximately)
+0022 22          32            ret
+0023             33            
+0023             34   waitshort:                         ; custom timing for function111
+0023 7A5A        35       mov R2, #90  
+0025 7932        36   L6: mov R1, #50
+0027 7864        37   L5: mov R0, #100
+0029 30FB42      38   L4: jnb KEY.3, CHECK0 ; checks if KEY3 is pressed
+002C D8FB        39            djnz R0, L4 
+002E D9F7        40       djnz R1, L5 
+0030 DAF3        41       djnz R2, L6  
+0032 22          42            ret
+0033             43            
+0033             44   startas:
+0033 758F78      45            mov HEX5, #seven  ; six most sig figs of student #
+0036 758E40      46            mov HEX4, #zero
+0039 759424      47            mov HEX3, #two
+003C 759302      48            mov HEX2, #six
+003F 759230      49            mov HEX1, #three
+0042 759140      50            mov HEX0, #zero
+0045 7C19        51            mov R4, #four     ; sets two extra register values for the shifting functions 
+0047 7D78        52            mov R5, #seven 
+0049 22          53            ret
+004A             54            
+004A             55   cleardisp:
+004A 758F7F      56            mov HEX5, #BLANK
+004D 758E7F      57            mov HEX4, #BLANK
+0050 75947F      58            mov HEX3, #BLANK
+0053 75937F      59            mov HEX2, #BLANK
+0056 75927F      60            mov HEX1, #BLANK
+0059 75917F      61            mov HEX0, #BLANK
+005C 22          62            ret     
+005D             63   
+005D             64   ;; initialization        
+005D             65   init:                             
+005D 75817F      66            mov SP, #0x7f     ; Initialize the stack
+0060 75E800      67            MOV LEDRA, #0
+0063 759500      68            MOV LEDRB, #0
+0066             69            
+0066 12004A      70            lcall cleardisp
+0069 120003      71            lcall wait
+006C 80EF        72            sjmp init
+006E             73            
+006E             74   ;; checking the switches and jumping to the approptiate function
+006E             75   CHECK0:                           
+006E 20E80C      76            jb SWA.0, CHECK1 ; checks if sw0 is pushed
+0071 20E915      77            jb SWA.1, CHECK2 ; if not checks if switch 1 is pressed
+0074 20EA03      78            jb SWA.2, JMPTO100 ; if both sw1 and 2 are not pressed and sw 2 is pressed jumps to function 100
+0077 0200A1      79            ljmp function000 ; if no switches pushed
+007A             80            
+007A             81   JMPTO100:
+007A 020113      82            ljmp function100
+007D             83            
+007D             84   CHECK1:
+007D 20E915      85            jb SWA.1, CHECK3 ; if switch 0 is pushed and switch 1 is too jump to check 3
+0080 20EA03      86            jb SWA.2, JMPTO101 ; if switch 0 is pushed and switch 1 is not and switch 2 is jump to function 101
+0083 0200B9      87            ljmp function001 ; if switches 1 and 2 are not pushed but switch 0 is jump to function 001
+0086             88            
+0086             89   JMPTO101:
+0086 020131      90            ljmp function101
+0089             91            
+0089             92   CHECK2:
+0089 20EA06      93            jb SWA.2, JMPTO110 ; if switch 1 is pushed check combinations...
+008C 120033      94            lcall startas
+008F 0200D1      95            ljmp function010
+0092             96            
+0092             97   JMPTO110:
+0092 02015E      98       ljmp function110
+0095             99       
+0095            100   CHECK3:
+0095 20EA06     101            jb SWA.2, JMPTO111 ; if switch 0 and 1 are pushed and switch 2 is as well jump to function 111
+0098 120033     102            lcall startas ; initializes the starting values of the display before entering the loop
+009B 0200F2     103            ljmp function011 ; if switches are 011 jump to that function
+009E            104            
+009E            105   JMPTO111:
+009E 0201A0     106            ljmp function111
+00A1            107            
+00A1            108                    
+00A1            109   ;; functionalities based on switch values                
+00A1            110   function000:              ; function for switches when set to 000
+00A1 758F78     111            mov HEX5, #seven ; six most sig figs of student #
+00A4 758E40     112            mov HEX4, #zero
+00A7 759424     113            mov HEX3, #two
+00AA 759302     114            mov HEX2, #six
+00AD 759230     115            mov HEX1, #three
+00B0 759140     116            mov HEX0, #zero
+00B3            117            
+00B3 120003     118            lcall wait
+00B6 0200A1     119            ljmp function000
+00B9            120            
+00B9            121   function001:             ; function for switches when set to 001
+00B9 758F7F     122            mov HEX5, #BLANK
+00BC 758E7F     123            mov HEX4, #BLANK
+00BF 75947F     124            mov HEX3, #BLANK
+00C2 75937F     125            mov HEX2, #BLANK
+00C5 759278     126            mov HEX1, #seven
+00C8 759119     127            mov HEX0, #four
+00CB            128            
+00CB 120003     129            lcall wait
+00CE 0200B9     130            ljmp function001
+00D1            131            
+00D1            132   function010: ; function for switches when set to 010
+00D1 120003     133            lcall wait
+00D4 AB8F       134            mov R3, HEX5
+00D6 858E8F     135            mov HEX5, HEX4
+00D9 85948E     136            mov HEX4, HEX3
+00DC 859394     137            mov HEX3, HEX2
+00DF 859293     138            mov HEX2, HEX1
+00E2 859192     139            mov HEX1, HEX0
+00E5 8D91       140            mov HEX0, R5
+00E7 8CF0       141            mov B, R4
+00E9 ADF0       142            mov R5, B
+00EB 8BF0       143            mov B, R3
+00ED ACF0       144            mov R4, B
+00EF            145            
+00EF 0200D1     146            ljmp function010
+00F2            147   
+00F2            148   function011: ; function for switches when set to 010
+00F2 120003     149            lcall wait
+00F5 AB91       150            mov R3, HEX0
+00F7 859291     151            mov HEX0, HEX1
+00FA 859392     152            mov HEX1, HEX2
+00FD 859493     153            mov HEX2, HEX3
+0100 858E94     154            mov HEX3, HEX4
+0103 858F8E     155            mov HEX4, HEX5
+0106 8C8F       156            mov HEX5, R4
+0108 8DF0       157            mov B, R5
+010A ACF0       158            mov R4, B
+010C 8BF0       159            mov B, R3
+010E ADF0       160            mov R5, B
+0110            161            
+0110 0200F2     162            ljmp function011
+0113            163   
+0113            164   function100: ;
+0113 758F24     165            mov HEX5, #two
+0116 758E02     166            mov HEX4, #six
+0119 759430     167            mov HEX3, #three
+011C 759340     168            mov HEX2, #zero
+011F 759278     169            mov HEX1, #seven
+0122 759119     170            mov HEX0, #four
+0125 120013     171            lcall waitabit
+0128            172   
+0128 12004A     173            lcall cleardisp
+012B 120013     174            lcall waitabit
+012E            175            
+012E 020113     176            ljmp function100
+0131            177   
+0131            178   function101:
+0131 12004A     179            lcall cleardisp
+0134 120003     180            lcall wait
+0137 758F78     181            mov HEX5, #seven
+013A 120003     182            lcall wait
+013D 758E40     183            mov HEX4, #zero
+0140 120003     184            lcall wait
+0143 759424     185            mov HEX3, #two
+0146 120003     186            lcall wait
+0149 759302     187            mov HEX2, #six
+014C 120003     188            lcall wait
+014F 759230     189            mov HEX1, #three
+0152 120003     190            lcall wait
+0155 759140     191            mov HEX0, #zero
+0158 120003     192            lcall wait
+015B            193   
+015B 020131     194       ljmp function101
+015E            195       
+015E            196   function110:
+015E 758F7F     197            mov HEX5, #BLANK
+0161 758E09     198            mov HEX4, #09H ; H
+0164 759406     199            mov HEX3, #06H ; E
+0167 759347     200            mov HEX2, #47H ; L
+016A 759247     201            mov HEX1, #47H ; L
+016D 759140     202            mov HEX0, #40H ; O
+0170 120003     203            lcall wait
+0173            204            
+0173 758F78     205            mov HEX5, #seven ; six most sig figs of student #
+0176 758E40     206            mov HEX4, #zero
+0179 759424     207            mov HEX3, #two
+017C 759302     208            mov HEX2, #six
+017F 759230     209            mov HEX1, #three
+0182 759140     210            mov HEX0, #zero
+0185 120003     211            lcall wait
+0188            212            
+0188 758F46     213            mov HEX5, #46H   ; C
+018B 758E0C     214            mov HEX4, #0CH   ; P
+018E 759448     215            mov HEX3, #48H   ; N
+0191 759330     216            mov HEX2, #three ; 3
+0194 75924F     217            mov HEX1, #79    ; 1
+0197 759124     218            mov HEX0, #two   ; 2
+019A 120003     219            lcall wait
+019D            220            
+019D 02015E     221            ljmp function110
+01A0            222            
+01A0            223   ;; special custom extra function
+01A0            224   function111:
+01A0 758F78     225            mov HEX5, #seven
+01A3 758E7F     226            mov HEX4, #blank
+01A6 75947F     227            mov HEX3, #blank
+01A9 75937F     228            mov HEX2, #blank
+01AC 75927F     229            mov HEX1, #blank
+01AF 75917F     230            mov HEX0, #blank
+01B2 120023     231            lcall waitshort
+01B5            232            
+01B5 758F7F     233            mov HEX5, #blank
+01B8 758E40     234            mov HEX4, #zero
+01BB 75947F     235            mov HEX3, #blank
+01BE 75937F     236            mov HEX2, #blank
+01C1 75927F     237            mov HEX1, #blank
+01C4 75917F     238            mov HEX0, #blank
+01C7 120023     239            lcall waitshort
+01CA            240   
+01CA 758F7F     241            mov HEX5, #blank
+01CD 758E7F     242            mov HEX4, #blank
+01D0 759424     243            mov HEX3, #two
+01D3 75937F     244            mov HEX2, #blank
+01D6 75927F     245            mov HEX1, #blank
+01D9 75917F     246            mov HEX0, #blank
+01DC 120023     247            lcall waitshort
+01DF            248   
+01DF 758F7F     249            mov HEX5, #blank
+01E2 758E7F     250            mov HEX4, #blank
+01E5 75947F     251            mov HEX3, #blank
+01E8 759302     252            mov HEX2, #six
+01EB 75927F     253            mov HEX1, #blank
+01EE 75917F     254            mov HEX0, #blank
+01F1 120023     255            lcall waitshort
+01F4            256            
+01F4 758F7F     257            mov HEX5, #blank
+01F7 758E7F     258            mov HEX4, #blank
+01FA 75947F     259            mov HEX3, #blank
+01FD 75937F     260            mov HEX2, #blank
+0200 759230     261            mov HEX1, #three
+0203 75917F     262            mov HEX0, #blank
+0206 120023     263            lcall waitshort
+0209            264   
+0209 758F7F     265            mov HEX5, #blank
+020C 758E7F     266            mov HEX4, #blank
+020F 75947F     267            mov HEX3, #blank
+0212 75937F     268            mov HEX2, #blank
+0215 75927F     269            mov HEX1, #blank
+0218 759140     270            mov HEX0, #zero
+021B 120023     271            lcall waitshort
+021E            272   
+021E 758F7F     273            mov HEX5, #blank
+0221 758E7F     274            mov HEX4, #blank
+0224 75947F     275            mov HEX3, #blank
+0227 75937F     276            mov HEX2, #blank
+022A 759230     277            mov HEX1, #three
+022D 75917F     278            mov HEX0, #blank
+0230 120023     279            lcall waitshort
+0233            280   
+0233 758F7F     281            mov HEX5, #blank
+0236 758E7F     282            mov HEX4, #blank
+0239 75947F     283            mov HEX3, #blank
+023C 759302     284            mov HEX2, #six
+023F 75927F     285            mov HEX1, #blank
+0242 75917F     286            mov HEX0, #blank
+0245 120023     287            lcall waitshort
+0248            288            
+0248 758F7F     289            mov HEX5, #blank
+024B 758E7F     290            mov HEX4, #blank
+024E 759424     291            mov HEX3, #two
+0251 75937F     292            mov HEX2, #blank
+0254 75927F     293            mov HEX1, #blank
+0257 75917F     294            mov HEX0, #blank
+025A 120023     295            lcall waitshort
+025D            296            
+025D 758F7F     297            mov HEX5, #blank
+0260 758E40     298            mov HEX4, #zero
+0263 75947F     299            mov HEX3, #blank
+0266 75937F     300            mov HEX2, #blank
+0269 75927F     301            mov HEX1, #blank
+026C 75917F     302            mov HEX0, #blank
+026F 120023     303            lcall waitshort
+0272            304            
+0272            305            ;loop 2
+0272 758F78     306            mov HEX5, #seven
+0275 758E7F     307            mov HEX4, #blank
+0278 75947F     308            mov HEX3, #blank
+027B 75937F     309            mov HEX2, #blank
+027E 75927F     310            mov HEX1, #blank
+0281 75917F     311            mov HEX0, #blank
+0284 120023     312            lcall waitshort
+0287            313            
+0287 758F78     314            mov HEX5, #seven
+028A 758E40     315            mov HEX4, #zero
+028D 75947F     316            mov HEX3, #blank
+0290 75937F     317            mov HEX2, #blank
+0293 75927F     318            mov HEX1, #blank
+0296 75917F     319            mov HEX0, #blank
+0299 120023     320            lcall waitshort
+029C            321   
+029C 758F78     322            mov HEX5, #seven
+029F 758E7F     323            mov HEX4, #blank
+02A2 759424     324            mov HEX3, #two
+02A5 75937F     325            mov HEX2, #blank
+02A8 75927F     326            mov HEX1, #blank
+02AB 75917F     327            mov HEX0, #blank
+02AE 120023     328            lcall waitshort
+02B1            329   
+02B1 758F78     330            mov HEX5, #seven
+02B4 758E7F     331            mov HEX4, #blank
+02B7 75947F     332            mov HEX3, #blank
+02BA 759302     333            mov HEX2, #six
+02BD 75927F     334            mov HEX1, #blank
+02C0 75917F     335            mov HEX0, #blank
+02C3 120023     336            lcall waitshort
+02C6            337            
+02C6 758F78     338            mov HEX5, #seven
+02C9 758E7F     339            mov HEX4, #blank
+02CC 75947F     340            mov HEX3, #blank
+02CF 75937F     341            mov HEX2, #blank
+02D2 759230     342            mov HEX1, #three
+02D5 75917F     343            mov HEX0, #blank
+02D8 120023     344            lcall waitshort
+02DB            345   
+02DB 758F78     346            mov HEX5, #seven
+02DE 758E7F     347            mov HEX4, #blank
+02E1 75947F     348            mov HEX3, #blank
+02E4 75937F     349            mov HEX2, #blank
+02E7 75927F     350            mov HEX1, #blank
+02EA 759140     351            mov HEX0, #zero
+02ED 120023     352            lcall waitshort
+02F0            353   
+02F0 758F78     354            mov HEX5, #seven
+02F3 758E7F     355            mov HEX4, #blank
+02F6 75947F     356            mov HEX3, #blank
+02F9 75937F     357            mov HEX2, #blank
+02FC 759230     358            mov HEX1, #three
+02FF 75917F     359            mov HEX0, #blank
+0302 120023     360            lcall waitshort
+0305            361   
+0305 758F78     362            mov HEX5, #seven
+0308 758E7F     363            mov HEX4, #blank
+030B 75947F     364            mov HEX3, #blank
+030E 759302     365            mov HEX2, #six
+0311 75927F     366            mov HEX1, #blank
+0314 75917F     367            mov HEX0, #blank
+0317 120023     368            lcall waitshort
+031A            369            
+031A 758F78     370            mov HEX5, #seven
+031D 758E7F     371            mov HEX4, #blank
+0320 759424     372            mov HEX3, #two
+0323 75937F     373            mov HEX2, #blank
+0326 75927F     374            mov HEX1, #blank
+0329 75917F     375            mov HEX0, #blank
+032C 120023     376            lcall waitshort
+032F            377            
+032F 758F78     378            mov HEX5, #seven
+0332 758E40     379            mov HEX4, #zero
+0335 75947F     380            mov HEX3, #blank
+0338 75937F     381            mov HEX2, #blank
+033B 75927F     382            mov HEX1, #blank
+033E 75917F     383            mov HEX0, #blank
+0341 120023     384            lcall waitshort
+0344            385            
+0344            386            ;;loop 3
+0344 758F78     387            mov HEX5, #seven
+0347 758E40     388            mov HEX4, #zero
+034A 759424     389            mov HEX3, #two
+034D 75937F     390            mov HEX2, #blank
+0350 75927F     391            mov HEX1, #blank
+0353 75917F     392            mov HEX0, #blank
+0356 120023     393            lcall waitshort
+0359            394   
+0359 758F78     395            mov HEX5, #seven
+035C 758E40     396            mov HEX4, #zero
+035F 75947F     397            mov HEX3, #blank
+0362 759302     398            mov HEX2, #six
+0365 75927F     399            mov HEX1, #blank
+0368 75917F     400            mov HEX0, #blank
+036B 120023     401            lcall waitshort
+036E            402            
+036E 758F78     403            mov HEX5, #seven
+0371 758E40     404            mov HEX4, #zero
+0374 75947F     405            mov HEX3, #blank
+0377 75937F     406            mov HEX2, #blank
+037A 759230     407            mov HEX1, #three
+037D 75917F     408            mov HEX0, #blank
+0380 120023     409            lcall waitshort
+0383            410   
+0383 758F78     411            mov HEX5, #seven
+0386 758E40     412            mov HEX4, #zero
+0389 75947F     413            mov HEX3, #blank
+038C 75937F     414            mov HEX2, #blank
+038F 75927F     415            mov HEX1, #blank
+0392 759140     416            mov HEX0, #zero
+0395 120023     417            lcall waitshort
+0398            418   
+0398 758F78     419            mov HEX5, #seven
+039B 758E40     420            mov HEX4, #zero
+039E 75947F     421            mov HEX3, #blank
+03A1 75937F     422            mov HEX2, #blank
+03A4 759230     423            mov HEX1, #three
+03A7 75917F     424            mov HEX0, #blank
+03AA 120023     425            lcall waitshort
+03AD            426   
+03AD 758F78     427            mov HEX5, #seven
+03B0 758E40     428            mov HEX4, #zero
+03B3 75947F     429            mov HEX3, #blank
+03B6 759302     430            mov HEX2, #six
+03B9 75927F     431            mov HEX1, #blank
+03BC 75917F     432            mov HEX0, #blank
+03BF 120023     433            lcall waitshort
+03C2            434            
+03C2 758F78     435            mov HEX5, #seven
+03C5 758E40     436            mov HEX4, #zero
+03C8 759424     437            mov HEX3, #two
+03CB 75937F     438            mov HEX2, #blank
+03CE 75927F     439            mov HEX1, #blank
+03D1 75917F     440            mov HEX0, #blank
+03D4 120023     441            lcall waitshort
+03D7            442            
+03D7            443            ;loop4
+03D7            444   
+03D7 758F78     445            mov HEX5, #seven
+03DA 758E40     446            mov HEX4, #zero
+03DD 759424     447            mov HEX3, #two
+03E0 759302     448            mov HEX2, #six
+03E3 75927F     449            mov HEX1, #blank
+03E6 75917F     450            mov HEX0, #blank
+03E9 120023     451            lcall waitshort
+03EC            452            
+03EC 758F78     453            mov HEX5, #seven
+03EF 758E40     454            mov HEX4, #zero
+03F2 759424     455            mov HEX3, #two
+03F5 75937F     456            mov HEX2, #blank
+03F8 759230     457            mov HEX1, #three
+03FB 75917F     458            mov HEX0, #blank
+03FE 120023     459            lcall waitshort
+0401            460   
+0401 758F78     461            mov HEX5, #seven
+0404 758E40     462            mov HEX4, #zero
+0407 759424     463            mov HEX3, #two
+040A 75937F     464            mov HEX2, #blank
+040D 75927F     465            mov HEX1, #blank
+0410 759140     466            mov HEX0, #zero
+0413 120023     467            lcall waitshort
+0416            468   
+0416 758F78     469            mov HEX5, #seven
+0419 758E40     470            mov HEX4, #zero
+041C 759424     471            mov HEX3, #two
+041F 75937F     472            mov HEX2, #blank
+0422 759230     473            mov HEX1, #three
+0425 75917F     474            mov HEX0, #blank
+0428 120023     475            lcall waitshort
+042B            476   
+042B 758F78     477            mov HEX5, #seven
+042E 758E40     478            mov HEX4, #zero
+0431 759424     479            mov HEX3, #two
+0434 759302     480            mov HEX2, #six
+0437 75927F     481            mov HEX1, #blank
+043A 75917F     482            mov HEX0, #blank
+043D 120023     483            lcall waitshort
+0440            484            
+0440            485            ;loop5
+0440            486            
+0440 758F78     487            mov HEX5, #seven
+0443 758E40     488            mov HEX4, #zero
+0446 759424     489            mov HEX3, #two
+0449 759302     490            mov HEX2, #six
+044C 759230     491            mov HEX1, #three
+044F 75917F     492            mov HEX0, #blank
+0452 120023     493            lcall waitshort
+0455            494   
+0455 758F78     495            mov HEX5, #seven
+0458 758E40     496            mov HEX4, #zero
+045B 759424     497            mov HEX3, #two
+045E 759302     498            mov HEX2, #six
+0461 75927F     499            mov HEX1, #blank
+0464 759140     500            mov HEX0, #zero
+0467 120023     501            lcall waitshort
+046A            502   
+046A 758F78     503            mov HEX5, #seven
+046D 758E40     504            mov HEX4, #zero
+0470 759424     505            mov HEX3, #two
+0473 759302     506            mov HEX2, #six
+0476 759230     507            mov HEX1, #three
+0479 75917F     508            mov HEX0, #blank
+047C 120023     509            lcall waitshort
+047F            510   
+047F            511            ;loop6
+047F            512   
+047F 758F78     513            mov HEX5, #seven
+0482 758E40     514            mov HEX4, #zero
+0485 759424     515            mov HEX3, #two
+0488 759302     516            mov HEX2, #six
+048B 759230     517            mov HEX1, #three
+048E 759140     518            mov HEX0, #zero
+0491 120023     519            lcall waitshort
+0494            520            
+0494            521            ;loop 7---------------------------------------------------------------------------------------------------------------------
+0494 758F7F     522            mov HEX5, #blank
+0497 758E40     523            mov HEX4, #zero
+049A 759424     524            mov HEX3, #two
+049D 759302     525            mov HEX2, #six
+04A0 759230     526            mov HEX1, #three
+04A3 759140     527            mov HEX0, #zero
+04A6 120023     528            lcall waitshort
+04A9            529            
+04A9 758F78     530            mov HEX5, #seven
+04AC 758E7F     531            mov HEX4, #blank
+04AF 759424     532            mov HEX3, #two
+04B2 759302     533            mov HEX2, #six
+04B5 759230     534            mov HEX1, #three
+04B8 759140     535            mov HEX0, #zero
+04BB 120023     536            lcall waitshort
+04BE            537   
+04BE 758F78     538            mov HEX5, #seven
+04C1 758E40     539            mov HEX4, #zero
+04C4 75947F     540            mov HEX3, #blank
+04C7 759302     541            mov HEX2, #six
+04CA 759230     542            mov HEX1, #three
+04CD 759140     543            mov HEX0, #zero
+04D0 120023     544            lcall waitshort
+04D3            545   
+04D3 758F78     546            mov HEX5, #seven
+04D6 758E40     547            mov HEX4, #zero
+04D9 759424     548            mov HEX3, #two
+04DC 75937F     549            mov HEX2, #blank
+04DF 759230     550            mov HEX1, #three
+04E2 759140     551            mov HEX0, #zero
+04E5 120023     552            lcall waitshort
+04E8            553            
+04E8 758F78     554            mov HEX5, #seven
+04EB 758E40     555            mov HEX4, #zero
+04EE 759424     556            mov HEX3, #two
+04F1 759302     557            mov HEX2, #six
+04F4 75927F     558            mov HEX1, #blank
+04F7 759140     559            mov HEX0, #zero
+04FA 120023     560            lcall waitshort
+04FD            561   
+04FD 758F78     562            mov HEX5, #seven
+0500 758E40     563            mov HEX4, #zero
+0503 759424     564            mov HEX3, #two
+0506 759302     565            mov HEX2, #six
+0509 759230     566            mov HEX1, #three
+050C 75917F     567            mov HEX0, #blank
+050F 120023     568            lcall waitshort
+0512            569   
+0512 758F78     570            mov HEX5, #seven
+0515 758E40     571            mov HEX4, #zero
+0518 759424     572            mov HEX3, #two
+051B 759302     573            mov HEX2, #six
+051E 75927F     574            mov HEX1, #blank
+0521 759140     575            mov HEX0, #zero
+0524 120023     576            lcall waitshort
+0527            577            
+0527 758F78     578            mov HEX5, #seven
+052A 758E40     579            mov HEX4, #zero
+052D 759424     580            mov HEX3, #two
+0530 75937F     581            mov HEX2, #blank
+0533 759230     582            mov HEX1, #three
+0536 759140     583            mov HEX0, #zero
+0539 120023     584            lcall waitshort
+053C            585   
+053C 758F78     586            mov HEX5, #seven
+053F 758E40     587            mov HEX4, #zero
+0542 75947F     588            mov HEX3, #blank
+0545 759302     589            mov HEX2, #six
+0548 759230     590            mov HEX1, #three
+054B 759140     591            mov HEX0, #zero
+054E 120023     592            lcall waitshort
+0551            593   
+0551 758F78     594            mov HEX5, #seven
+0554 758E7F     595            mov HEX4, #blank
+0557 759424     596            mov HEX3, #two
+055A 759302     597            mov HEX2, #six
+055D 759230     598            mov HEX1, #three
+0560 759140     599            mov HEX0, #zero
+0563 120023     600            lcall waitshort
+0566            601            
+0566 758F7F     602            mov HEX5, #blank
+0569 758E40     603            mov HEX4, #zero
+056C 759424     604            mov HEX3, #two
+056F 759302     605            mov HEX2, #six
+0572 759230     606            mov HEX1, #three
+0575 759140     607            mov HEX0, #zero
+0578 120023     608            lcall waitshort
+057B            609            
+057B            610            ;loop 2
+057B            611            
+057B 758F7F     612            mov HEX5, #blank
+057E 758E7F     613            mov HEX4, #blank
+0581 759424     614            mov HEX3, #two
+0584 759302     615            mov HEX2, #six
+0587 759230     616            mov HEX1, #three
+058A 759140     617            mov HEX0, #zero
+058D 120023     618            lcall waitshort
+0590            619   
+0590 758F7F     620            mov HEX5, #blank
+0593 758E40     621            mov HEX4, #zero
+0596 75947F     622            mov HEX3, #blank
+0599 759302     623            mov HEX2, #six
+059C 759230     624            mov HEX1, #three
+059F 759140     625            mov HEX0, #zero
+05A2 120023     626            lcall waitshort
+05A5            627   
+05A5 758F7F     628            mov HEX5, #blank
+05A8 758E40     629            mov HEX4, #zero
+05AB 759424     630            mov HEX3, #two
+05AE 75937F     631            mov HEX2, #blank
+05B1 759230     632            mov HEX1, #three
+05B4 759140     633            mov HEX0, #zero
+05B7 120023     634            lcall waitshort
+05BA            635            
+05BA 758F7F     636            mov HEX5, #blank
+05BD 758E40     637            mov HEX4, #zero
+05C0 759424     638            mov HEX3, #two
+05C3 759302     639            mov HEX2, #six
+05C6 75927F     640            mov HEX1, #blank
+05C9 759140     641            mov HEX0, #zero
+05CC 120023     642            lcall waitshort
+05CF            643   
+05CF 758F7F     644            mov HEX5, #blank
+05D2 758E40     645            mov HEX4, #zero
+05D5 759424     646            mov HEX3, #two
+05D8 759302     647            mov HEX2, #six
+05DB 759230     648            mov HEX1, #three
+05DE 75917F     649            mov HEX0, #blank
+05E1 120023     650            lcall waitshort
+05E4            651   
+05E4 758F7F     652            mov HEX5, #blank
+05E7 758E40     653            mov HEX4, #zero
+05EA 759424     654            mov HEX3, #two
+05ED 759302     655            mov HEX2, #six
+05F0 75927F     656            mov HEX1, #blank
+05F3 759140     657            mov HEX0, #zero
+05F6 120023     658            lcall waitshort
+05F9            659            
+05F9 758F7F     660            mov HEX5, #blank
+05FC 758E40     661            mov HEX4, #zero
+05FF 759424     662            mov HEX3, #two
+0602 75937F     663            mov HEX2, #blank
+0605 759230     664            mov HEX1, #three
+0608 759140     665            mov HEX0, #zero
+060B 120023     666            lcall waitshort
+060E            667   
+060E 758F7F     668            mov HEX5, #blank
+0611 758E40     669            mov HEX4, #zero
+0614 75947F     670            mov HEX3, #blank
+0617 759302     671            mov HEX2, #six
+061A 759230     672            mov HEX1, #three
+061D 759140     673            mov HEX0, #zero
+0620 120023     674            lcall waitshort
+0623            675   
+0623 758F7F     676            mov HEX5, #blank
+0626 758E7F     677            mov HEX4, #blank
+0629 759424     678            mov HEX3, #two
+062C 759302     679            mov HEX2, #six
+062F 759230     680            mov HEX1, #three
+0632 759140     681            mov HEX0, #zero
+0635 120023     682            lcall waitshort
+0638            683            
+0638            684            ;loop 3
+0638            685   
+0638 758F7F     686            mov HEX5, #blank
+063B 758E7F     687            mov HEX4, #blank
+063E 75947F     688            mov HEX3, #blank
+0641 759302     689            mov HEX2, #six
+0644 759230     690            mov HEX1, #three
+0647 759140     691            mov HEX0, #zero
+064A 120023     692            lcall waitshort
+064D            693   
+064D 758F7F     694            mov HEX5, #blank
+0650 758E7F     695            mov HEX4, #blank
+0653 759424     696            mov HEX3, #two
+0656 75937F     697            mov HEX2, #blank
+0659 759230     698            mov HEX1, #three
+065C 759140     699            mov HEX0, #zero
+065F 120023     700            lcall waitshort
+0662            701            
+0662 758F7F     702            mov HEX5, #blank
+0665 758E7F     703            mov HEX4, #blank
+0668 759424     704            mov HEX3, #two
+066B 759302     705            mov HEX2, #six
+066E 75927F     706            mov HEX1, #blank
+0671 759140     707            mov HEX0, #zero
+0674 120023     708            lcall waitshort
+0677            709   
+0677 758F7F     710            mov HEX5, #blank
+067A 758E7F     711            mov HEX4, #blank
+067D 759424     712            mov HEX3, #two
+0680 759302     713            mov HEX2, #six
+0683 759230     714            mov HEX1, #three
+0686 75917F     715            mov HEX0, #blank
+0689 120023     716            lcall waitshort
+068C            717   
+068C 758F7F     718            mov HEX5, #blank
+068F 758E7F     719            mov HEX4, #blank
+0692 759424     720            mov HEX3, #two
+0695 759302     721            mov HEX2, #six
+0698 75927F     722            mov HEX1, #blank
+069B 759140     723            mov HEX0, #zero
+069E 120023     724            lcall waitshort
+06A1            725            
+06A1 758F7F     726            mov HEX5, #blank
+06A4 758E7F     727            mov HEX4, #blank
+06A7 759424     728            mov HEX3, #two
+06AA 75937F     729            mov HEX2, #blank
+06AD 759230     730            mov HEX1, #three
+06B0 759140     731            mov HEX0, #zero
+06B3 120023     732            lcall waitshort
+06B6            733   
+06B6 758F7F     734            mov HEX5, #blank
+06B9 758E7F     735            mov HEX4, #blank
+06BC 75947F     736            mov HEX3, #blank
+06BF 759302     737            mov HEX2, #six
+06C2 759230     738            mov HEX1, #three
+06C5 759140     739            mov HEX0, #zero
+06C8 120023     740            lcall waitshort
+06CB            741            
+06CB            742            ;loop 4
+06CB            743   
+06CB 758F7F     744            mov HEX5, #blank
+06CE 758E7F     745            mov HEX4, #blank
+06D1 75947F     746            mov HEX3, #blank
+06D4 75937F     747            mov HEX2, #blank
+06D7 759230     748            mov HEX1, #three
+06DA 759140     749            mov HEX0, #zero
+06DD 120023     750            lcall waitshort
+06E0            751            
+06E0 758F7F     752            mov HEX5, #blank
+06E3 758E7F     753            mov HEX4, #blank
+06E6 75947F     754            mov HEX3, #blank
+06E9 759302     755            mov HEX2, #six
+06EC 75927F     756            mov HEX1, #blank
+06EF 759140     757            mov HEX0, #zero
+06F2 120023     758            lcall waitshort
+06F5            759   
+06F5 758F7F     760            mov HEX5, #blank
+06F8 758E7F     761            mov HEX4, #blank
+06FB 75947F     762            mov HEX3, #blank
+06FE 759302     763            mov HEX2, #six
+0701 759230     764            mov HEX1, #three
+0704 75917F     765            mov HEX0, #blank
+0707 120023     766            lcall waitshort
+070A            767   
+070A 758F7F     768            mov HEX5, #blank
+070D 758E7F     769            mov HEX4, #blank
+0710 75947F     770            mov HEX3, #blank
+0713 759302     771            mov HEX2, #six
+0716 75927F     772            mov HEX1, #blank
+0719 759140     773            mov HEX0, #zero
+071C 120023     774            lcall waitshort
+071F            775            
+071F 758F7F     776            mov HEX5, #blank
+0722 758E7F     777            mov HEX4, #blank
+0725 75947F     778            mov HEX3, #blank
+0728 75937F     779            mov HEX2, #blank
+072B 759230     780            mov HEX1, #three
+072E 759140     781            mov HEX0, #zero
+0731 120023     782            lcall waitshort
+0734            783   
+0734            784            ;loop 5
+0734            785            
+0734 758F7F     786            mov HEX5, #blank
+0737 758E7F     787            mov HEX4, #blank
+073A 75947F     788            mov HEX3, #blank
+073D 75937F     789            mov HEX2, #blank
+0740 75927F     790            mov HEX1, #blank
+0743 759140     791            mov HEX0, #zero
+0746 120023     792            lcall waitshort
+0749            793   
+0749 758F7F     794            mov HEX5, #blank
+074C 758E7F     795            mov HEX4, #blank
+074F 75947F     796            mov HEX3, #blank
+0752 75937F     797            mov HEX2, #blank
+0755 759230     798            mov HEX1, #three
+0758 75917F     799            mov HEX0, #blank
+075B 120023     800            lcall waitshort
+075E            801   
+075E 758F7F     802            mov HEX5, #blank
+0761 758E7F     803            mov HEX4, #blank
+0764 75947F     804            mov HEX3, #blank
+0767 75937F     805            mov HEX2, #blank
+076A 75927F     806            mov HEX1, #blank
+076D 759140     807            mov HEX0, #zero
+0770 120023     808            lcall waitshort
+0773            809            
+0773            810            ;loop 6
+0773 758F7F     811            mov HEX5, #blank
+0776 758E7F     812            mov HEX4, #blank
+0779 75947F     813            mov HEX3, #blank
+077C 75937F     814            mov HEX2, #blank
+077F 75927F     815            mov HEX1, #blank
+0782 75917F     816            mov HEX0, #blank
+0785 120023     817            lcall waitshort
+0788            818            
+0788            819            ;add before this
+0788 0201A0     820            ljmp function111
+078B            821            
+078B            822   END
